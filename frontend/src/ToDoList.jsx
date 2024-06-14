@@ -14,6 +14,19 @@ const ToDoList = () => {
   const handleCheck = (id) => {
     const listTasks = tasks.map((task) => task.id === id ? { ...task, complete: !task.complete} : task);
     setTasks(listTasks);
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: 'PUT',
+      mode: 'cors'
+    })
+  }
+
+  const handleDelete = (id) => {
+    const listTasks = tasks.filter((task) => task.id !== id);
+    setTasks(listTasks);
+    fetch(`http://localhost:3000/tasks/${id}`, {
+      method: 'DELETE',
+      mode: 'cors',
+    })
   }
   
   return (
@@ -34,7 +47,7 @@ const ToDoList = () => {
                 onDoubleClick={()=>handleCheck(task.id)}
               >{task.task}</label>              
               <FaTrashAlt 
-                onClick={() => console.log('deleted')}
+                onClick={() => handleDelete(task.id)}
                 role="button" 
                 tabIndex="0" 
               />

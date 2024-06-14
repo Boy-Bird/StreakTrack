@@ -28,7 +28,16 @@ app.get('/tasks', (req, res) => {
   })
 });
 
-app.get('/tasks/del/:id', (req, res) => {
+app.put('/tasks/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = 'update tasks set complete = not complete where id = ?';
+  db.query(sql, id, (err, data) => {
+    if(err) return res.json(err);
+    res.json('updated' + data);
+  })
+})
+
+app.delete('/tasks/:id', (req, res) => {
   const sql = 'delete from tasks where id = ?';
   const id = req.params.id;
   db.query(sql, id, (err, data) => {
